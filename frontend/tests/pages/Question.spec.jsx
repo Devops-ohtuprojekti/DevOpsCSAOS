@@ -87,7 +87,7 @@ describe('Selecting option', () => {
     )
 
     const initialState = useStore.getState()
-    expect(initialState.selections[1]).toBe(-1)
+    expect(initialState.selections[1]).toBeUndefined()
 
     const button = component.getByText('Agree')
     fireEvent.click(button)

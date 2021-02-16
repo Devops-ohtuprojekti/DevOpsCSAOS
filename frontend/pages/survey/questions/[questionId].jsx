@@ -51,12 +51,20 @@ const Question = ({ questions }) => {
   const summaryPageHref = '/survey/questions/summary'
   const isFinalQuestion = questionId === questions.length
 
+  useEffect(() => {
+    const selectionsInSessionStorage = sessionStorage.getItem('selections')
+    if (selectionsInSessionStorage) {
+      store.setSelections(JSON.parse(selectionsInSessionStorage))
+    }
+  }, [])
+
   const updateSelections = (pointValue) => {
     const newSelections = [...store.selections]
-    // update point value of question being answered
+
     newSelections[questionId - 1] = pointValue
-    // update state
     store.setSelections(newSelections)
+    // update session storage, TODO: user specific storing / security
+    sessionStorage.setItem('selections', JSON.stringify(newSelections))
   }
 
   const checkAllQuestionsAnswered = () => {
@@ -75,7 +83,6 @@ const Question = ({ questions }) => {
     const allAnswered = checkAllQuestionsAnswered()
 
     if (!allAnswered) {
-      // for ui clarity
       alert('please answer all questions to proceed')
       return
     }
@@ -128,13 +135,16 @@ const Question = ({ questions }) => {
     </>
   )
 }
+
 export async function getStaticProps() {
   const questions = await getAll()
   useStore.setState({ questions })
+  
   return {
     props: { questions },
   }
 }
+
 export async function getStaticPaths() {
   const questions = await getAll()
   const ids = questions.map((_, index) => index + 1)
@@ -148,4 +158,5 @@ export async function getStaticPaths() {
     fallback: false,
   }
 }
+
 export default Question

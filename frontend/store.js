@@ -1,5 +1,4 @@
 import create from 'zustand'
-import _ from 'lodash'
 
 const initialQuestions = []
 const initialSelections = []

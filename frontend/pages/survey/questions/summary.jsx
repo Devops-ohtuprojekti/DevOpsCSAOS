@@ -43,8 +43,6 @@ const Summary = () => {
         const QuestionText = `Question: ${question.text}`
         const AnswerText = `You ${answerToQuestion}`
 
-        console.log(QuestionText)
-
         return (
           <QuestionAnswerWrapper key={question.id}>
             {QuestionText}

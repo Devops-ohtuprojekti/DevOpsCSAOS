@@ -94,10 +94,6 @@ const Question = ({ questions }) => {
     router.push(summaryPageHref)
   }
 
-  useEffect(() => {
-    store.setQuestions(questions)
-  }, [])
-
   return (
     <>
       <ProgressBar id={questionId} total={questions.length}/>
@@ -133,8 +129,8 @@ const Question = ({ questions }) => {
   )
 }
 export async function getStaticProps() {
-  // fetch all pre-defined questions
   const questions = await getAll()
+  useStore.setState({ questions })
   return {
     props: { questions },
   }

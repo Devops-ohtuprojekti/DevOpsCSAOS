@@ -28,7 +28,7 @@ npm run dev
 ```
 
 Then open [http://localhost:3000/](http://localhost:3000/) to see the app.<br>
-For a production build, create a minified bundle with `npm run build`.
+For a production build, create a minified bundle with `npm run build:dev`.
 
 ## Running the application with Docker Compose locally
 

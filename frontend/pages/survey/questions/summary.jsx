@@ -61,8 +61,8 @@ const Summary = () => {
     */
   const allQuestionsAnswered =
     store.selections.length === questions.length &&
-    store.selections.reduce((allAnswered, s) => {
-      if (!s || !allAnswered) {
+    store.selections.reduce((allAnswered, selection) => {
+      if (selection != null || !allAnswered) {
         return false
       }
       return true

@@ -52,24 +52,4 @@ const CategoryResultChart = ({ userResult, maxResult }) => (
   </>
 )
 
-/*
-const CategoryResultChart = ({ userResult, maxResult }) => (
-  <>
-    <ReactSpeedometer
-      value={userResult}
-      maxValue={maxResult}
-      needleColor="000000"
-      needleTransition="easeLinear"
-      needleTransitionDuration={4500}
-      needleHeightRatio={0.7}
-      customSegmentStops={[0, userResult, maxResult]}
-      segmentColors={['#82ca9d', '#FFD700']}
-      maxSegmentLabels={0}
-      valueTextFontSize={0}
-      width={300}
-      height={250}
-    />
-  </>
-)
-*/
 export default CategoryResultChart

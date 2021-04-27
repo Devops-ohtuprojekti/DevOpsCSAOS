@@ -95,12 +95,14 @@ answersRouter.post('/emailsubmit', async (req, res) => {
     }
 
     const anonymousUser = await findUserMatchingTokenFromDb(token)
+   
     if (!anonymousUser) {
       return res.status(401).json({
         message: 'No user associated with token.',
       })
     }
-
+    const userId = anonymousUser.id
+    
     // update users table in db
     const userWithSameEmailAndGroup = await User.findOne({
       where: {
@@ -113,6 +115,7 @@ answersRouter.post('/emailsubmit', async (req, res) => {
         { userId: userWithSameEmailAndGroup.id },
         { where: { userId: anonymousUser.id } }
       )
+      userId = userWithSameEmailAndGroup.id
       await User.destroy({ where: { id: anonymousUser.id } })
     } else {
       anonymousUser.email = email
@@ -136,11 +139,14 @@ answersRouter.post('/emailsubmit', async (req, res) => {
     const baseUrl = req.get('origin')
     console.log(baseUrl)
     const group_parameter = groupId || createdGroupId
+    const user_parameter = userId
     const group_invite_link = group_parameter
       ? `${baseUrl}/?groupid=${group_parameter}`
       : ''
-    const group_results_page_link = ''
-    await SendHubspotMessage(email, group_invite_link, group_results_page_link)
+    const user_results_link = user_parameter
+      ? `${baseUrl}/survey/total_results/?userid=${user_parameter}&version=A`
+      : ''
+    await SendHubspotMessage(email, group_invite_link, user_results_link)
     return res.status(200).json({})
   } catch (err) {
     console.log(err)

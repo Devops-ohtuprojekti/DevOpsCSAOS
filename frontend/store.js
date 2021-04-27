@@ -89,6 +89,7 @@ const store = (set) => ({
       questionGroups: [],
       visitedSummary: false,
       groupId: '',
+      userToken: '',
     })),
   setResults: (results) => set(() => ({ results })),
   setVisitedSummary: (value) => set(() => ({ visitedSummary: value })),

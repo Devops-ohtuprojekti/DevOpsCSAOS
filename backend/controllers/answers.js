@@ -101,7 +101,7 @@ answersRouter.post('/emailsubmit', async (req, res) => {
         message: 'No user associated with token.',
       })
     }
-    const userToken = token
+    let userToken = token
     
     // update users table in db
     const userWithSameEmailAndGroup = await User.findOne({
@@ -146,7 +146,7 @@ answersRouter.post('/emailsubmit', async (req, res) => {
     const user_results_link = user_parameter
       ? `${baseUrl}/survey/total_results/?user=${user_parameter}&version=A`
       : ''
-    await SendHubspotMessage(email, group_invite_link, user_results_link)
+    // await SendHubspotMessage(email, group_invite_link, user_results_link)
     return res.status(200).json({})
   } catch (err) {
     console.log(err)

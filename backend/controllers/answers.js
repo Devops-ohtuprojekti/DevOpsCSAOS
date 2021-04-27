@@ -101,7 +101,7 @@ answersRouter.post('/emailsubmit', async (req, res) => {
         message: 'No user associated with token.',
       })
     }
-    const userId = anonymousUser.id
+    const userToken = token
     
     // update users table in db
     const userWithSameEmailAndGroup = await User.findOne({
@@ -115,7 +115,7 @@ answersRouter.post('/emailsubmit', async (req, res) => {
         { userId: userWithSameEmailAndGroup.id },
         { where: { userId: anonymousUser.id } }
       )
-      userId = userWithSameEmailAndGroup.id
+      userToken = jwt.sign(userWithSameEmailAndGroup.id, process.env.SECRET_FOR_TOKEN)
       await User.destroy({ where: { id: anonymousUser.id } })
     } else {
       anonymousUser.email = email
@@ -139,12 +139,12 @@ answersRouter.post('/emailsubmit', async (req, res) => {
     const baseUrl = req.get('origin')
     console.log(baseUrl)
     const group_parameter = groupId || createdGroupId
-    const user_parameter = userId
+    const user_parameter = userToken
     const group_invite_link = group_parameter
       ? `${baseUrl}/?groupid=${group_parameter}`
       : ''
     const user_results_link = user_parameter
-      ? `${baseUrl}/survey/total_results/?userid=${user_parameter}&version=A`
+      ? `${baseUrl}/survey/total_results/?user=${user_parameter}&version=A`
       : ''
     await SendHubspotMessage(email, group_invite_link, user_results_link)
     return res.status(200).json({})
